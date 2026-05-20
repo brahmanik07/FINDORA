@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Findora Login</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f4c81,#1e88e5);
+}
+
+.login-box{
+background:white;
+padding:40px;
+width:360px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#0f4c81;
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:20px;
+color:#333;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0f4c81;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#0c3c66;
+}
+
+.error{
+color:red;
+margin-top:10px;
+display:none;
+}
+
+.register-link{
+margin-top:15px;
+display:none;
+}
+
+.register-link a{
+color:#1e88e5;
+text-decoration:none;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="logo">Findora</div>
+
+<h2>Login</h2>
+
+<input type="text" id="userInput" placeholder="Email ID or Phone Number">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="loginUser()">Login</button>
+
+<p id="errorMsg" class="error"></p>
+
+<p id="registerMsg" class="register-link">
+User not found. <a href="register.html">Register here</a>
+</p>
+
+</div>
+
+<script>
+
+/* Example users database (temporary) */
+
+const users = [
+{
+email:"user@findora.com",
+phone:"9876543210",
+password:"12345"
+}
+];
+
+function loginUser(){
+
+let input=document.getElementById("userInput").value.trim();
+let password=document.getElementById("password").value.trim();
+
+let error=document.getElementById("errorMsg");
+let register=document.getElementById("registerMsg");
+
+error.style.display="none";
+register.style.display="none";
+
+/* check if user exists */
+
+let user=users.find(u=>u.email===input || u.phone===input);
+
+if(!user){
+
+register.style.display="block";
+return;
+
+}
+
+/* check password */
+
+if(user.password!==password){
+
+error.innerText="Invalid credentials";
+error.style.display="block";
+return;
+
+}
+
+/* successful login */
+
+alert("Login successful!");
+
+window.location.href="dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>

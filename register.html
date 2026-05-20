@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Findora Register</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f4c81,#1e88e5);
+}
+
+.container{
+background:white;
+padding:35px;
+width:380px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.logo{
+font-size:26px;
+font-weight:bold;
+color:#0f4c81;
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:20px;
+color:#333;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0f4c81;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#0c3c66;
+}
+
+.error{
+color:red;
+font-size:14px;
+margin-top:10px;
+display:none;
+}
+
+.success{
+color:green;
+font-size:14px;
+margin-top:10px;
+display:none;
+}
+
+.login{
+margin-top:15px;
+}
+
+.login a{
+color:#1e88e5;
+text-decoration:none;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">Findora</div>
+
+<h2>Create Account</h2>
+
+<input type="text" id="name" placeholder="Full Name">
+
+<input type="text" id="phone" placeholder="Phone Number">
+
+<input type="email" id="email" placeholder="Email ID">
+
+<input type="password" id="emailPassword" placeholder="Email Password">
+
+<input type="password" id="password" placeholder="Create Password for Findora">
+
+<input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+<button onclick="registerUser()">Register</button>
+
+<p id="errorMsg" class="error"></p>
+<p id="successMsg" class="success"></p>
+
+<div class="login">
+Already have an account? <a href="login.html">Login</a>
+</div>
+
+</div>
+
+<script>
+
+function registerUser(){
+
+let name=document.getElementById("name").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let email=document.getElementById("email").value.trim();
+let emailpassword=document.getElementById("emailPassword").value.trim();
+let password=document.getElementById("password").value.trim();
+let confirmPassword=document.getElementById("confirmPassword").value.trim();
+
+let error=document.getElementById("errorMsg");
+let success=document.getElementById("successMsg");
+
+error.style.display="none";
+success.style.display="none";
+
+/* Empty check */
+
+if(name=="" || phone=="" || email=="" || emailpassword=="" || password=="" || confirmPassword==""){
+error.innerText="Please fill all fields";
+error.style.display="block";
+return;
+}
+
+/* Email validation */
+
+let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+if(!email.match(emailPattern)){
+error.innerText="Invalid Email ID";
+error.style.display="block";
+return;
+}
+
+/* Phone validation */
+
+if(phone.length!=10 || isNaN(phone)){
+error.innerText="Enter valid 10 digit phone number";
+error.style.display="block";
+return;
+}
+
+/* Password match */
+
+if(password!==confirmPassword){
+error.innerText="Passwords do not match";
+error.style.display="block";
+return;
+}
+
+/* Password length */
+
+if(password.length<5){
+error.innerText="Password must be at least 5 characters";
+error.style.display="block";
+return;
+}
+
+/* Get existing users */
+
+let users = JSON.parse(localStorage.getItem("findoraUsers")) || [];
+
+/* Check duplicate email */
+
+let existingUser = users.find(u => u.email === email);
+
+if(existingUser){
+error.innerText="Email already registered";
+error.style.display="block";
+return;
+}
+
+/* Save user */
+
+let newUser={
+name:name,
+phone:phone,
+email:email,
+emailpassword:emailpassword,
+password:password
+};
+
+users.push(newUser);
+
+localStorage.setItem("findoraUsers",JSON.stringify(users));
+
+success.innerText="Registration successful!";
+success.style.display="block";
+
+setTimeout(()=>{
+window.location.href="login.html";
+},2000);
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Match</title>
+</head>
+
+<body>
+
+<h2>Smart Match System</h2>
+
+<p>This system detects matches between lost and found items.</p>
+
+<button onclick="notify()">Test Notification</button>
+
+<script>
+
+function notify(){
+
+fetch("/notify")
+
+.then(res=>res.text())
+
+.then(data=>alert(data))
+
+}
+
+</script>
+
+</body>
+</html>
